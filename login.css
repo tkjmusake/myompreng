@@ -1,0 +1,179 @@
+/* ============================================================
+   MyOmpreng - STYLE HALAMAN LOGIN (login.css)
+   File khusus untuk halaman login (index.html).
+   Tema: biru-putih, modern, kartu di tengah.
+   ============================================================ */
+
+/* Body khusus halaman login: background gradient biru lembut */
+body.login-page {
+  background: linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #3b82f6 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Pola dekoratif bulat di background agar tidak terlalu polos */
+body.login-page::before,
+body.login-page::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+}
+body.login-page::before {
+  width: 480px; height: 480px;
+  top: -120px; right: -120px;
+}
+body.login-page::after {
+  width: 320px; height: 320px;
+  bottom: -100px; left: -80px;
+}
+
+/* Logo sekolah di atas judul "MyOmpreng"
+   - display:block + margin:auto agar terpusat horizontal
+   - width kecil agar tidak terlalu besar
+   - height:auto menjaga rasio asli gambar
+   - object-fit:contain agar logo tidak terpotong
+   - border-radius:50% agar bentuk bulat (sesuai logo sekolah)
+   - background putih sedikit agar terlihat jelas */
+.school-logo {
+  display: block;
+  width: 150px;              /* ← ubah angka ini untuk memperkecil/memperbesar logo */
+  height: 150px;            /* tinggi sama dengan lebar agar bulat */
+  margin: 0 auto 1px;     /* tengah horizontal + jarak bawah 12px ke judul */
+  object-fit: contain;     /* pastikan logo tidak terpotong */
+  /* border-radius: 50%;      bentuk lingkaran */
+  /* background: #ffffff;      background putih di belakang logo */
+  padding: 1px;            /* ruang putih di sekitar logo */
+  /* box-shadow: 0 4px 12px rgba(0,0,0,0.08); bayangan lembut */
+}
+
+/* Logo lama (.login-logo) tidak dipakai lagi — disembunyikan */
+.login-logo { display: none; }
+
+/* Kartu utama login */
+.login-card {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  border-radius: 20px;
+  width: 100%;
+  height: 90%;
+  max-width: 420px;
+  padding: 1px 32px;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+  animation: cardIn 0.4s ease-out;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Logo di atas form */
+.login-logo {
+  width: 64px; height: 64px;
+  margin: 0 auto 16px;
+  background: linear-gradient(135deg, #1e40af, #2563eb);
+  color: #fff;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 30px;
+  box-shadow: 0 8px 20px -4px rgba(37,99,235,0.5);
+}
+
+.login-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+.login-subtitle {
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+
+/* Form login */
+.login-form .form-group { margin-bottom: 16px; }
+.login-form label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+/* Input dengan ikon di kiri */
+.input-group {
+  position: relative;
+}
+.input-group .input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #94a3b8;
+  pointer-events: none;
+}
+.input-group .form-control {
+  padding-left: 38px;
+  height: 44px;
+  font-size: 14px;
+}
+
+/* Tombol submit login */
+.login-form .btn-primary {
+  width: 100%;
+  height: 46px;
+  font-size: 15px;
+  margin-top: 4px;
+}
+
+/* Kotak info kredensial demo */
+.login-hint {
+  margin-top: 22px;
+  padding: 12px 14px;
+  background: #eff6ff;
+  border: 1px dashed #93c5fd;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #1e40af;
+  text-align: center;
+}
+.login-hint code {
+  background: #fff;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+  color: #1e40af;
+}
+
+/* Pesan error */
+.login-error {
+  display: none;
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 14px;
+  align-items: center;
+  gap: 8px;
+}
+.login-error.show { display: flex; }
+
+.footer-note {
+  text-align: center;
+  margin-top: 22px;
+  font-size: 12px;
+  color: #94a3b8;
+}

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Riwayat &amp; Laporan — MyOmpreng</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar" id="navbar"></nav>
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Riwayat &amp; Laporan</h1>
+        <p class="page-subtitle">Cari, filter, dan unduh laporan pembagian MBG &amp; pengembalian ompreng.</p>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn btn-outline" id="btnClearAll">🗑 Hapus Semua Riwayat</button>
+        <button class="btn btn-primary" id="btnExportCSV">⬇ Unduh CSV</button>
+      </div>
+    </div>
+
+    <!-- ===== BAR FILTER ===== -->
+    <div class="filter-bar">
+      <div class="form-group">
+        <label for="filterTipe">Tipe</label>
+        <select id="filterTipe" class="form-control">
+          <option value="all">Semua</option>
+          <option value="pembagian">Pembagian MBG</option>
+          <option value="pengembalian">Pengembalian Ompreng</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="filterKelas">Kelas</label>
+        <select id="filterKelas" class="form-control">
+          <option value="">Semua Kelas</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="filterTanggal">Tanggal</label>
+        <input type="date" id="filterTanggal" class="form-control">
+      </div>
+      <div class="filter-actions">
+        <button class="btn btn-outline" id="btnResetFilter">⟳ Reset</button>
+      </div>
+    </div>
+
+    <!-- ===== RINGKASAN GLOBAL ===== -->
+    <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+      <div class="stat-card accent-amber">
+        <div class="stat-head">
+          <span class="stat-label">Ompreng Belum Kembali</span>
+          <div class="stat-icon icon-amber">⏳</div>
+        </div>
+        <div class="stat-value" id="totalBelumRiwayat">0</div>
+        <div class="stat-foot">Total seluruh data</div>
+      </div>
+    </div>
+
+    <!-- ===== LAPORAN HARIAN (muncul saat filter tanggal dipilih) ===== -->
+    <div class="card hidden" id="dailyReport">
+      <div class="card-header">
+        <div>
+          <h2>Laporan Harian</h2>
+          <span class="text-muted" id="reportTanggal" style="font-size:13px;">—</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
+          <div class="stat-card accent-blue">
+            <div class="stat-head"><span class="stat-label">Kelas Aktif</span><div class="stat-icon icon-blue">🏫</div></div>
+            <div class="stat-value" id="reportKelas" style="font-size:22px;">0</div>
+          </div>
+          <div class="stat-card accent-blue">
+            <div class="stat-head"><span class="stat-label">Siswa Terima</span><div class="stat-icon icon-cyan">👧👦</div></div>
+            <div class="stat-value" id="reportSiswa" style="font-size:22px;">0</div>
+          </div>
+          <div class="stat-card accent-blue">
+            <div class="stat-head"><span class="stat-label">Guru Terima</span><div class="stat-icon icon-purple">👩‍🏫</div></div>
+            <div class="stat-value" id="reportGuru" style="font-size:22px;">0</div>
+          </div>
+          <div class="stat-card accent-blue">
+            <div class="stat-head"><span class="stat-label">Porsi Dibagikan</span><div class="stat-icon icon-cyan">🍱</div></div>
+            <div class="stat-value" id="reportPorsi" style="font-size:22px;">0</div>
+          </div>
+          <div class="stat-card accent-green">
+            <div class="stat-head"><span class="stat-label">Dikembalikan Hari Ini</span><div class="stat-icon icon-green">♻️</div></div>
+            <div class="stat-value" id="reportKembali" style="font-size:22px;">0</div>
+          </div>
+          <div class="stat-card accent-amber">
+            <div class="stat-head"><span class="stat-label">Sisa Hari Ini</span><div class="stat-icon icon-amber">⏳</div></div>
+            <div class="stat-value" id="reportSisa" style="font-size:22px;">0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TABEL RIWAYAT ===== -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h2>Riwayat Pembagian &amp; Pengembalian</h2>
+          <span class="text-muted" id="totalData" style="font-size:13px;">0 catatan</span>
+        </div>
+      </div>
+      <div class="card-body flush">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Tipe</th>
+                <th>Tanggal</th>
+                <th>Kelas</th>
+                <th class="num">Jumlah</th>
+                <th>Detail</th>
+                <th>Petugas</th>
+                <th class="text-right">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="riwayatTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="storage.js"></script>
+  <script src="common.js"></script>
+  <script src="riwayat.js"></script>
+</body>
+</html>

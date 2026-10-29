@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — MyOmpreng</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== STRUKTUR LAYOUT DASAR ===== -->
+  <!-- Navbar atas (diisi oleh common.js) -->
+  <nav class="navbar" id="navbar"></nav>
+
+  <!-- Sidebar kiri (diisi oleh common.js) -->
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <!-- Area konten utama -->
+  <main class="content">
+
+    <!-- Header halaman -->
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-subtitle">Ringkasan pembagian Makan Bergizi Gratis (MBG) &amp; pengembalian ompreng.</p>
+      </div>
+      <!-- Tombol logout cepat (sudah ada juga di navbar) -->
+      <button class="btn btn-outline btn-sm" id="btnQuickLogout">⏻ Keluar</button>
+    </div>
+
+    <!-- ===== KARTU STATISTIK UTAMA ===== -->
+    <section class="stats-grid">
+
+      <!-- 1. Jumlah siswa penerima MBG -->
+      <div class="stat-card accent-blue">
+        <div class="stat-head">
+          <span class="stat-label">Siswa Penerima MBG</span>
+          <div class="stat-icon icon-blue">👧👦</div>
+        </div>
+        <div class="stat-value" id="statSiswaMenerima">0</div>
+        <div class="stat-foot">Total siswa yang terima MBG</div>
+      </div>
+
+      <!-- 2. Jumlah guru penerima MBG -->
+      <div class="stat-card accent-blue">
+        <div class="stat-head">
+          <span class="stat-label">Guru Penerima MBG</span>
+          <div class="stat-icon icon-purple">👩‍🏫</div>
+        </div>
+        <div class="stat-value" id="statGuruMenerima">0</div>
+        <div class="stat-foot">Total guru yang terima MBG</div>
+      </div>
+
+      <!-- 3. Total porsi MBG yang dibagikan -->
+      <div class="stat-card accent-blue">
+        <div class="stat-head">
+          <span class="stat-label">Total Porsi MBG</span>
+          <div class="stat-icon icon-cyan">🍱</div>
+        </div>
+        <div class="stat-value" id="statTotalPorsi">0</div>
+        <div class="stat-foot" id="footPorsi">Dari 0 catatan pembagian</div>
+      </div>
+
+      <!-- 4. Total ompreng sudah dikembalikan -->
+      <div class="stat-card accent-green">
+        <div class="stat-head">
+          <span class="stat-label">Ompreng Dikembalikan</span>
+          <div class="stat-icon icon-green">♻️</div>
+        </div>
+        <div class="stat-value" id="statDikembalikan">0</div>
+        <div class="stat-foot" id="footDikembalikan">0 catatan pengembalian</div>
+      </div>
+
+      <!-- 5. Total ompreng belum kembali -->
+      <div class="stat-card accent-amber" id="cardBelumKembali">
+        <div class="stat-head">
+          <span class="stat-label">Ompreng Belum Kembali</span>
+          <div class="stat-icon icon-amber">⏳</div>
+        </div>
+        <div class="stat-value" id="statBelumKembali">0</div>
+        <div class="stat-foot">Wajib ditindaklanjuti petugas</div>
+      </div>
+    </section>
+
+    <!-- ===== BAR TOMBOL HAPUS DATA (sesuai permintaan user) ===== -->
+    <div class="card">
+      <div class="card-header">
+        <h2>Aksi Cepat</h2>
+        <span class="text-muted" style="font-size:13px;">Tombol hapus data per kategori</span>
+      </div>
+      <div class="card-body" style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn btn-outline" id="btnClearDikembalikan">
+          ♻️ Hapus Data Ompreng Dikembalikan
+        </button>
+        <button class="btn btn-outline" id="btnClearBelumKembali">
+          ⏳ Reset Ompreng Belum Kembali
+        </button>
+        <button class="btn btn-outline" id="btnClearStatusKelas">
+          🏫 Reset Status Pembagian per Kelas
+        </button>
+      </div>
+    </div>
+
+    <!-- ===== TABEL STATUS PEMBAGIAN PER KELAS ===== -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h2>Status Pembagian MBG per Kelas</h2>
+          <span class="text-muted" style="font-size:13px;">Berdasarkan catatan pembagian terakhir tiap kelas.</span>
+        </div>
+        <div id="statusSummary" style="display:flex; gap:6px; flex-wrap:wrap;"></div>
+      </div>
+      <div class="card-body flush">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Kelas</th>
+                <th>Tgl Terakhir</th>
+                <th class="num">Dibagikan</th>
+                <th class="num">Dikembalikan</th>
+                <th class="num">Belum Kembali</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="statusTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ===== SCRIPT (urutan penting!) ===== -->
+  <script src="storage.js"></script>
+  <script src="common.js"></script>
+  <script src="dashboard.js"></script>
+  <script>
+    // Tombol logout cepat di header halaman
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('btnQuickLogout').addEventListener('click', () => {
+        if (typeof confirmLogout === 'function') confirmLogout();
+        else logout();
+      });
+    });
+  </script>
+</body>
+</html>

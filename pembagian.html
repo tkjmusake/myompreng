@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pembagian MBG — MyOmpreng</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar" id="navbar"></nav>
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Pembagian MBG</h1>
+        <p class="page-subtitle">Catat pembagian Makan Bergizi Gratis harian per kelas.</p>
+      </div>
+    </div>
+
+    <!-- Alert jika belum ada kelas -->
+    <div class="alert alert-warning hidden" id="noKelasAlert">
+      <span class="alert-icon">⚠️</span>
+      <div>
+        <strong>Belum ada kelas terdaftar.</strong>
+        Harap tambah kelas dulu di halaman
+        <a href="kelas.html"><strong>Data Kelas</strong></a>
+        sebelum mencatat pembagian MBG.
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: 1fr; gap:20px;">
+
+      <!-- ===== FORM PEMBAGIAN MBG ===== -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 id="formTitle">Catat Pembagian MBG</h2>
+            <span class="text-muted" style="font-size:13px;">Isi seluruh kolom bertanda *</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <form id="pembagianForm">
+            <div class="form-grid">
+
+              <!-- Tanggal -->
+              <div class="form-group">
+                <label for="tanggal">Tanggal Pembagian *</label>
+                <input type="date" id="tanggal" class="form-control" required>
+              </div>
+
+              <!-- Pilih kelas -->
+              <div class="form-group">
+                <label for="kelasId">Nama Kelas *</label>
+                <select id="kelasId" class="form-control" required>
+                  <option value="">— Pilih Kelas —</option>
+                </select>
+              </div>
+
+              <!-- Jumlah siswa (otomatis) -->
+              <div class="form-group">
+                <label for="jumlahSiswa">Jumlah Siswa</label>
+                <input type="number" id="jumlahSiswa" class="form-control" readonly>
+                <span class="hint">Otomatis dari data kelas.</span>
+              </div>
+
+              <!-- Jumlah guru mengajar -->
+              <div class="form-group">
+                <label for="jumlahGuruMengajar">Jumlah Guru Mengajar *</label>
+                <input type="number" id="jumlahGuruMengajar" class="form-control"
+                       placeholder="Contoh: 2" required min="0" max="20">
+                <span class="hint">Total guru yang mengajar hari itu.</span>
+              </div>
+
+              <!-- Siswa penerima -->
+              <div class="form-group">
+                <label for="jumlahSiswaMenerima">Siswa Penerima MBG *</label>
+                <input type="number" id="jumlahSiswaMenerima" class="form-control"
+                       placeholder="Contoh: 28" required min="0" max="500">
+                <span class="hint">Boleh kurang dari jumlah siswa (ada yang tidak hadir).</span>
+              </div>
+
+              <!-- Guru penerima (BEDA dari guru mengajar!) -->
+              <div class="form-group">
+                <label for="jumlahGuruMenerima">Guru Penerima MBG *</label>
+                <input type="number" id="jumlahGuruMenerima" class="form-control"
+                       placeholder="Contoh: 1" required min="0" max="20">
+                <span class="hint">Dibedakan dari guru yang mengajar.</span>
+              </div>
+
+              <!-- Jumlah porsi dibagikan -->
+              <div class="form-group">
+                <label for="jumlahPorsi">Jumlah Porsi Dibagikan *</label>
+                <input type="number" id="jumlahPorsi" class="form-control"
+                       placeholder="Contoh: 29" required min="0" max="600">
+                <span class="hint">Otomatis = siswa + guru penerima (boleh diubah manual).</span>
+              </div>
+
+              <!-- Petugas pengambil MBG -->
+              <div class="form-group">
+                <label for="petugas">Nama Petugas Pengambil MBG *</label>
+                <input type="text" id="petugas" class="form-control"
+                       placeholder="Contoh: Nama Siswa" required maxlength="60">
+              </div>
+            </div>
+
+            <!-- Tombol aksi form -->
+            <div style="display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;">
+              <button type="submit" class="btn btn-primary" id="btnSubmit">💾 Simpan Pembagian</button>
+              <button type="button" class="btn btn-outline hidden" id="btnCancelEdit">Batal Edit</button>
+              <button type="reset" class="btn btn-ghost" onclick="resetForm()">Reset Form</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ===== TABEL RIWAYAT PEMBAGIAN ===== -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2>Riwayat Pembagian MBG</h2>
+            <span class="text-muted" id="totalInfo" style="font-size:13px;">0 catatan</span>
+          </div>
+        </div>
+        <div class="card-body flush">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Tanggal</th>
+                  <th>Kelas</th>
+                  <th class="num">Siswa</th>
+                  <th class="num">Guru&nbsp;Mengajar</th>
+                  <th class="num">Siswa&nbsp;Terima</th>
+                  <th class="num">Guru&nbsp;Terima</th>
+                  <th class="num">Porsi</th>
+                  <th>Petugas</th>
+                  <th class="text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="pembagianTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="storage.js"></script>
+  <script src="common.js"></script>
+  <script src="pembagian.js"></script>
+</body>
+</html>

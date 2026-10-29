@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pengembalian Ompreng — MyOmpreng</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar" id="navbar"></nav>
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Pengembalian Ompreng</h1>
+        <p class="page-subtitle">Catat pengembalian ompreng dari tiap kelas &amp; pantau yang belum kembali.</p>
+      </div>
+    </div>
+
+    <!-- Alert global: ada ompreng belum kembali -->
+    <div class="alert alert-warning hidden" id="globalAlert">
+      <span class="alert-icon">⚠️</span>
+      <div>
+        <strong>Perhatian!</strong>
+        Masih ada <strong id="alertTotalBelum">0</strong> ompreng yang belum dikembalikan.
+        Mohon lakukan pemeriksaan ke kelas terkait.
+      </div>
+    </div>
+
+    <!-- Kartu ringkasan -->
+    <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+      <div class="stat-card accent-blue">
+        <div class="stat-head"><span class="stat-label">Total Dibagikan</span><div class="stat-icon icon-blue">🍱</div></div>
+        <div class="stat-value" id="cardTotalDibagikan">0</div>
+      </div>
+      <div class="stat-card accent-green">
+        <div class="stat-head"><span class="stat-label">Total Dikembalikan</span><div class="stat-icon icon-green">♻️</div></div>
+        <div class="stat-value" id="cardTotalDikembalikan">0</div>
+      </div>
+      <div class="stat-card accent-amber">
+        <div class="stat-head"><span class="stat-label">Belum Kembali</span><div class="stat-icon icon-amber">⏳</div></div>
+        <div class="stat-value" id="cardTotalBelum">0</div>
+      </div>
+    </div>
+
+    <!-- Tabel ringkasan pengembalian per pembagian -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h2>Status Ompreng per Pembagian</h2>
+          <span class="text-muted" id="ringkasanInfo" style="font-size:13px;">0 catatan</span>
+        </div>
+      </div>
+      <div class="card-body flush">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>Kelas</th>
+                <th class="num">Dibagikan</th>
+                <th class="num">Dikembalikan</th>
+                <th class="num">Belum Kembali</th>
+                <th>Status</th>
+                <th class="text-right">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="omprengTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== MODAL TAMBAH PENGEMBALIAN ===== -->
+  <div class="modal-overlay" id="formModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h3>Catat Pengembalian Ompreng</h3>
+          <small class="text-muted">Pengembalian dapat dicatat bertahap</small>
+        </div>
+        <button class="modal-close" id="btnCloseKembaliForm" onclick="closeForm()">×</button>
+      </div>
+      <form id="formPengembalian">
+        <div class="modal-body">
+
+          <!-- Info statis pembagian yang dipilih -->
+          <div class="alert alert-info">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px 16px; font-size:13px;">
+              <div><strong>Kelas:</strong> <span id="formInfoKelas">—</span></div>
+              <div><strong>Tanggal MBG:</strong> <span id="formInfoTanggal">—</span></div>
+              <div><strong>Dibagikan:</strong> <span id="formInfoDibagikan" class="text-bold">0</span></div>
+              <div><strong>Sudah Dikembalikan:</strong> <span id="formInfoDikembalikan" class="text-success text-bold">0</span></div>
+              <div style="grid-column: 1/-1;"><strong>Sisa (Belum Kembali):</strong>
+                <span id="formInfoSisa" class="text-danger text-bold">0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Catatan jika sudah lengkap -->
+          <div class="alert alert-success hidden" id="formLengkapNote">
+            <span class="alert-icon">✅</span>
+            <div>Seluruh ompreng untuk pembagian ini sudah dikembalikan. Tidak perlu catatan baru.</div>
+          </div>
+
+          <!-- Form fields -->
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="tanggalKembali">Tanggal Pengembalian *</label>
+              <input type="date" id="tanggalKembali" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="jumlahDikembalikan">Jumlah Dikembalikan *</label>
+              <input type="number" id="jumlahDikembalikan" class="form-control"
+                     placeholder="Contoh: 25" required min="1">
+              <span class="hint">Maksimal = sisa yang belum dikembalikan.</span>
+            </div>
+            <div class="form-group full">
+              <label for="petugasKembali">Nama Petugas Pengembalian *</label>
+              <input type="text" id="petugasKembali" class="form-control"
+                     placeholder="Contoh: Nama Siswa" required maxlength="60">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="btnCancelKembali">Batal</button>
+          <button type="submit" class="btn btn-primary" id="btnSubmitKembali">💾 Catat Pengembalian</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== MODAL DETAIL PENGEMBALIAN ===== -->
+  <div class="modal-overlay" id="detailModal">
+    <div class="modal lg">
+      <div class="modal-header">
+        <div>
+          <h3>Detail Pengembalian</h3>
+          <small class="text-muted">
+            Kelas: <span id="detailKelas" class="text-bold">—</span> ·
+            Tanggal MBG: <span id="detailTanggal" class="text-bold">—</span>
+          </small>
+        </div>
+        <button class="modal-close" id="btnCloseDetail">×</button>
+      </div>
+      <div class="modal-body">
+
+        <!-- Ringkasan di atas -->
+        <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom:16px;">
+          <div class="stat-card accent-blue">
+            <div class="stat-head"><span class="stat-label">Dibagikan</span></div>
+            <div class="stat-value" id="detailDibagikan">0</div>
+          </div>
+          <div class="stat-card accent-green">
+            <div class="stat-head"><span class="stat-label">Dikembalikan</span></div>
+            <div class="stat-value" id="detailDikembalikan">0</div>
+          </div>
+          <div class="stat-card accent-amber">
+            <div class="stat-head"><span class="stat-label">Sisa</span></div>
+            <div class="stat-value" id="detailSisa">0</div>
+          </div>
+        </div>
+
+        <!-- Tabel catatan pengembalian -->
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Tanggal Kembali</th>
+                <th class="num">Jumlah</th>
+                <th>Petugas</th>
+                <th>Dicatat Pada</th>
+                <th class="text-right">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="detailTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="btnCloseDetail2" onclick="closeDetail()">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="storage.js"></script>
+  <script src="common.js"></script>
+  <script src="ompreng.js"></script>
+
+  <!-- Tambahan: update kartu ringkasan saat render -->
+  <script>
+    // Monkey-patch renderTable agar juga update kartu ringkasan
+    (function() {
+      const _orig = window.renderTable;
+      window.renderTable = function() {
+        _orig();
+        const stats = getStatistikGlobal();
+        document.getElementById('cardTotalDibagikan').textContent = formatAngka(stats.totalPorsi);
+        document.getElementById('cardTotalDikembalikan').textContent = formatAngka(stats.totalDikembalikan);
+        document.getElementById('cardTotalBelum').textContent = formatAngka(stats.totalBelumKembali);
+      };
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Kelas — MyOmpreng</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Layout dasar -->
+  <nav class="navbar" id="navbar"></nav>
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Data Kelas</h1>
+        <p class="page-subtitle">Kelola daftar kelas yang menerima program MBG.</p>
+      </div>
+      <button class="btn btn-primary" id="btnTambah">＋ Tambah Kelas</button>
+    </div>
+
+    <!-- Kartu info ringkas -->
+    <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
+      <div class="stat-card accent-blue">
+        <div class="stat-head"><span class="stat-label">Total Kelas</span><div class="stat-icon icon-blue">🏫</div></div>
+        <div class="stat-value" id="kelasInfo">0 kelas</div>
+        <div class="stat-foot">Terdaftar di sekolah</div>
+      </div>
+    </div>
+
+    <!-- Tabel daftar kelas -->
+    <div class="card">
+      <div class="card-header">
+        <h2>Daftar Kelas</h2>
+        <span class="text-muted" style="font-size:13px;">Klik Edit/Hapus pada baris untuk mengelola</span>
+      </div>
+      <div class="card-body flush">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width:50px;">#</th>
+                <th>Nama Kelas</th>
+                <th class="num">Jumlah Siswa</th>
+                <th>Dibuat</th>
+                <th class="text-right">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="kelasTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== MODAL FORM TAMBAH/EDIT KELAS ===== -->
+  <div class="modal-overlay" id="formModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h3 id="formTitle">Tambah Kelas</h3>
+          <small class="text-muted" id="formSubtitle">Isi data kelas baru di bawah ini</small>
+        </div>
+        <button class="modal-close" data-close-form>×</button>
+      </div>
+      <form id="kelasForm">
+        <div class="modal-body">
+          <!-- Input nama kelas -->
+          <div class="form-group mb-16">
+            <label for="namaKelas">Nama Kelas *</label>
+            <input type="text" id="namaKelas" class="form-control"
+                   placeholder="Contoh: 1A, 2B, IPA 3" required maxlength="30">
+            <span class="hint">Maksimal 30 karakter.</span>
+          </div>
+          <!-- Input jumlah siswa -->
+          <div class="form-group">
+            <label for="jumlahSiswa">Jumlah Siswa *</label>
+            <input type="number" id="jumlahSiswa" class="form-control"
+                   placeholder="Contoh: 28" required min="0" max="200">
+            <span class="hint">Digunakan sebagai acuan saat mencatat pembagian MBG.</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="btnCancel">Batal</button>
+          <button type="submit" class="btn btn-primary">💾 Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="storage.js"></script>
+  <script src="common.js"></script>
+  <script src="kelas.js"></script>
+</body>
+</html>

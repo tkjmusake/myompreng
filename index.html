@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <!-- viewport agar responsif di HP -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyOmpreng — Login Admin</title>
+
+  <!-- CSS: login.css bergantung pada style.css untuk beberapa komponen dasar -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="login.css">
+</head>
+<body class="login-page">
+
+  <!-- ===== KARTU LOGIN ===== -->
+  <div class="login-card">
+    <!-- Logo SMK Muhammadiyah 1 Kepanjen (di atas teks MyOmpreng) -->
+    <img src="logomusake.png" alt="Logo SMK Muhammadiyah 1 Kepanjen" class="school-logo"
+         onerror="this.style.display='none'">
+    <h1 class="login-title">MyOmpreng</h1>
+    <p class="login-subtitle">Sistem Pencatatan MBG &amp; Ompreng Sekolah</p>
+
+    <!-- Pesan error (disembunyikan sampai ada error) -->
+    <div class="login-error" id="loginError" role="alert">
+      <span>⚠️</span><span></span>
+    </div>
+
+    <!-- Form login -->
+    <form class="login-form" id="loginForm" autocomplete="off">
+      <!-- Input username -->
+      <div class="form-group">
+        <label for="username">Username</label>
+        <div class="input-group">
+          <span class="input-icon">👤</span>
+          <input
+            type="text"
+            id="username"
+            class="form-control"
+            placeholder="Masukkan username"
+            required
+            autocomplete="username">
+        </div>
+      </div>
+
+      <!-- Input password -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-group">
+          <span class="input-icon">🔒</span>
+          <input
+            type="password"
+            id="password"
+            class="form-control"
+            placeholder="Masukkan password"
+            required
+            autocomplete="current-password">
+        </div>
+      </div>
+
+      <!-- Tombol submit -->
+      <button type="submit" class="btn btn-primary">Masuk ke Dashboard →</button>
+    </form>
+
+    <!-- Info kredensial demo -->
+    <div class="login-hint">
+      <button type="button" id="fillDemo"
+        style="margin-top:8px; background:#fff; border:1px solid #93c5fd; color:#1e40af; padding:5px 12px; border-radius:6px; cursor:pointer; font-size:12px; font-weight:600;">
+        Isi Otomatis
+      </button>
+    </div>
+
+    <p class="footer-note">© MyOmpreng. By : Alzam · SMK Muhammadiyah 1 Kepanjen</p>
+  </div>
+
+  <!-- Script: data layer dulu, lalu auth (urutan penting!) -->
+  <script src="storage.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>
