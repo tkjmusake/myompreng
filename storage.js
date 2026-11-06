@@ -116,13 +116,15 @@ function seedData() {
       { id: uid(), namaKelas: '12 TKR 1', jumlahSiswa: 32, createdAt: new Date().toISOString() },
       { id: uid(), namaKelas: '12 TKR 2', jumlahSiswa: 33, createdAt: new Date().toISOString() },
       { id: uid(), namaKelas: '12 TKR 3', jumlahSiswa: 32, createdAt: new Date().toISOString() },
-      { id: uid(), namaKelas: '11 TAB 1', jumlahSiswa: 33, createdAt: new Date().toISOString() },
-      { id: uid(), namaKelas: '11 TAB 2', jumlahSiswa: 32, createdAt: new Date().toISOString() },
-      { id: uid(), namaKelas: '11 TAB 3', jumlahSiswa: 32, createdAt: new Date().toISOString() },
-      { id: uid(), namaKelas: '11 TAB 4', jumlahSiswa: 31, createdAt: new Date().toISOString() },
-      { id: uid(), namaKelas: '11 TAB 5', jumlahSiswa: 28, createdAt: new Date().toISOString() },
-      { id: uid(), namaKelas: '11 TAB 6', jumlahSiswa: 30, createdAt: new Date().toISOString() },
+      { id: uid(), namaKelas: '12 TAB 1', jumlahSiswa: 33, createdAt: new Date().toISOString() },
+      { id: uid(), namaKelas: '12 TAB 2', jumlahSiswa: 32, createdAt: new Date().toISOString() },
+      { id: uid(), namaKelas: '12 TAB 3', jumlahSiswa: 32, createdAt: new Date().toISOString() },
+      { id: uid(), namaKelas: '12 TAB 4', jumlahSiswa: 31, createdAt: new Date().toISOString() },
+      { id: uid(), namaKelas: '12 TAB 5', jumlahSiswa: 28, createdAt: new Date().toISOString() },
+      { id: uid(), namaKelas: '12 TAB 6', jumlahSiswa: 30, createdAt: new Date().toISOString() },
       { id: uid(), namaKelas: '12 TOI', jumlahSiswa: 31, createdAt: new Date().toISOString() },
+      { id: uid(), namaKelas: 'TATA USAHA', jumlahSiswa: 15, createdAt: new Date().toISOString() },
+      { id: uid(), namaKelas: 'RUANG GURU', jumlahSiswa: 10, createdAt: new Date().toISOString() },
     ]);
   }
 }
